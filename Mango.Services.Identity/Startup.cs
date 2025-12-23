@@ -42,14 +42,16 @@ namespace Mango.Services.Identity
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
                 options.EmitStaticAudienceClaim = true;
-            }).AddInMemoryIdentityResources(SD.IdentityResources)
+                options.KeyManagement.Enabled = false;
+            })
+            .AddInMemoryIdentityResources(SD.IdentityResources)
             .AddInMemoryApiScopes(SD.ApiScopes)
             .AddInMemoryClients(SD.Clients)
             .AddAspNetIdentity<ApplicationUser>();
 
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IProfileService, ProfileService>();
-            builder.AddDeveloperSigningCredential();
+            builder.AddDeveloperSigningCredential(false);
 
             services.AddControllersWithViews();
         }
